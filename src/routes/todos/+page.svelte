@@ -39,7 +39,7 @@
 				<input
 					type="checkbox"
 					name="completed"
-					checked={item.completed}
+					checked={item.completed === 'true'}
 					on:change={(e) => (e.currentTarget.form as HTMLFormElement).requestSubmit()}
 				/>
 			</form>
@@ -91,7 +91,6 @@
 		gap: 0.5rem;
 		padding: 0.25rem 0;
 	}
-	input[type='text'],
 	input[name='title'] {
 		padding: 0.4rem 0.5rem;
 	}

@@ -1,0 +1,14 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hill 1 -->
+  <path d="M0,60 L0,40 Q30,20 60,40 L80,40 L80,60 Z" fill="#16A34A"/>
+  
+  <!-- Hill 2 -->
+  <path d="M60,60 L60,35 Q90,15 120,35 L140,35 L140,60 Z" fill="#22C55E"/>
+  
+  <!-- Hill 3 -->
+  <path d="M120,60 L120,45 Q150,25 180,45 L200,45 L200,60 Z" fill="#16A34A"/>
+  
+  <!-- Small hills for depth -->
+  <path d="M40,60 L40,50 Q50,40 60,50 L70,50 L70,60 Z" fill="#15803D" opacity="0.7"/>
+  <path d="M160,60 L160,50 Q170,40 180,50 L190,50 L190,60 Z" fill="#15803D" opacity="0.7"/>
+</svg>

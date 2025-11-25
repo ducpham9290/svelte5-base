@@ -2,9 +2,9 @@ import { hash, verify } from '@node-rs/argon2';
 import { encodeBase32LowerCase } from '@oslojs/encoding';
 import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import * as auth from '$lib/server/auth';
+import { auth } from '$lib/server/auth';
 import { db } from '$lib/server/db';
-import * as table from '$lib/server/db/schema';
+import { users } from '$lib/server/db/schema';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
@@ -29,7 +29,7 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid password (min 6, max 255 characters)' });
 		}
 
-		const results = await db.select().from(table.user).where(eq(table.user.username, username));
+		const results = await db.select().from(users).where(eq(users.username, username));
 
 		const existingUser = results.at(0);
 		if (!existingUser) {
@@ -46,9 +46,13 @@ export const actions: Actions = {
 			return fail(400, { message: 'Incorrect username or password' });
 		}
 
-		const sessionToken = auth.generateSessionToken();
-		const session = await auth.createSession(sessionToken, existingUser.id);
-		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		// Create session using Lucia v3 API
+		const session = await auth.createSession(existingUser.id, {});
+		const sessionCookie = auth.createSessionCookie(session.id);
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			...sessionCookie.attributes,
+			path: '/'
+		});
 
 		return redirect(302, '/demo/lucia');
 	},
@@ -74,11 +78,20 @@ export const actions: Actions = {
 		});
 
 		try {
-			await db.insert(table.user).values({ id: userId, username, passwordHash });
+			await db.insert(users).values({
+				id: userId,
+				username,
+				email: `${username}@example.com`, // Add required email field
+				passwordHash
+			});
 
-			const sessionToken = auth.generateSessionToken();
-			const session = await auth.createSession(sessionToken, userId);
-			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+			// Create session using Lucia v3 API
+			const session = await auth.createSession(userId, {});
+			const sessionCookie = auth.createSessionCookie(session.id);
+			event.cookies.set(sessionCookie.name, sessionCookie.value, {
+				...sessionCookie.attributes,
+				path: '/'
+			});
 		} catch {
 			return fail(500, { message: 'An error has occurred' });
 		}

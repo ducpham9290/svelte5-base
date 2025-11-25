@@ -1,0 +1,17 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer spiral -->
+  <path d="M60,10 Q80,20 70,40 Q50,60 30,50 Q10,30 20,10 Q40,0 60,10" 
+        stroke="#67E8F9" stroke-width="3" fill="none" opacity="0.6"/>
+  
+  <!-- Middle spiral -->
+  <path d="M60,20 Q75,30 70,45 Q55,55 40,50 Q25,35 30,20 Q45,15 60,20" 
+        stroke="#22D3EE" stroke-width="2" fill="none" opacity="0.7"/>
+  
+  <!-- Inner spiral -->
+  <path d="M60,30 Q70,35 68,45 Q55,50 45,45 Q35,35 40,30 Q50,25 60,30" 
+        stroke="#06B6D4" stroke-width="2" fill="none" opacity="0.8"/>
+  
+  <!-- Center eye -->
+  <circle cx="60" cy="40" r="8" fill="#0891B2" opacity="0.9"/>
+  <circle cx="60" cy="40" r="4" fill="#0E7490" opacity="0.7"/>
+</svg>
